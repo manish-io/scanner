@@ -1,0 +1,25 @@
+name: Docker Image Scan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  scan-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        run: docker build --file Dockerfile --tag my-nginx-image .
+
+      - name: Scan Docker image for vulnerabilities
+        run: |
+          docker pull aquasec/trivy
+          docker run --rm -v $(pwd):/workdir -w /workdir aquasec/trivy --exit-code 1 my-nginx-image
+
