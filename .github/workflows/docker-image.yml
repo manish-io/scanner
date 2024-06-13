@@ -20,6 +20,6 @@ jobs:
 
       - name: Scan Docker image for vulnerabilities
         run: |
-          docker pull aquasec/trivy
-          docker run --rm -v $(pwd):/workdir -w /workdir aquasec/trivy --exit-code 1 my-nginx-image
+          docker pull aquasec
+          docker run --rm -v $(pwd):/workdir -w /workdir aquasec --exit-code 1 my-nginx-image
 
